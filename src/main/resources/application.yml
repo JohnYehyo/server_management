@@ -1,0 +1,19 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: tomcat-manage
+  profiles:
+    active: dev
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
+    cache: false
+
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+
+JohnYehyo:
+  version: 1.0.0

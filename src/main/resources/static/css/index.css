@@ -1,0 +1,13 @@
+.gray-bg {
+    background-color: #f3f3f4;
+}
+
+.layui-table-page {
+    z-index: 99999;
+    position: fixed;
+    bottom: 10px;
+}
+
+.layui-table-box {
+    /*margin-bottom: 0px;*/
+}

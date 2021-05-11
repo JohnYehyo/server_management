@@ -1,0 +1,25 @@
+.management_form{
+    width: 100%;
+    background: #fff;
+    border-radius: 6px;
+    margin-top: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.management_table{
+    width: 100%;
+    background: #fff;
+    border-radius: 6px;
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 13px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    position:absolute;
+    bottom:10px;
+}
+
+.table-striped {
+    min-height: 80%;
+}

@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mysql://32.0.7.201:3306/server_management?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: Rjsoft@rjsoft20
+
+minio:
+  url: http://32.0.7.21:9000
+  username: zhjzMinio
+  password: Zhjz@Minio#$
+
+tomcatfile:
+  savePath: webapps/ROOT.war
+
+swagger:
+  enable: true

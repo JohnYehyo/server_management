@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>服务治理</title>
+    <link rel="stylesheet" th:href="@{/third/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+</head>
+<body class="gray-bg">
+<div class="management_form">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+<!--            <div class="layui-inline">-->
+<!--                <label class="layui-form-label">分组选择框</label>-->
+<!--                <div class="layui-input-inline">-->
+<!--                    <select name="server_url">-->
+<!--                        <option value="">请选择问题</option>-->
+<!--                        <optgroup label="城市记忆">-->
+<!--                            <option value="你工作的第一个城市">你工作的第一个城市</option>-->
+<!--                        </optgroup>-->
+<!--                        <optgroup label="学生时代">-->
+<!--                            <option value="你的工号">你的工号</option>-->
+<!--                            <option value="你最喜欢的老师">你最喜欢的老师</option>-->
+<!--                        </optgroup>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="layui-inline">
+                <label class="layui-form-label">服务选择</label>
+                <div class="layui-input-inline">
+                    <select name="server_name" lay-verify="required" lay-search="">
+                        <option value="">直接选择或搜索选择</option>
+                        <option value="1">业务系统</option>
+                        <option value="2">核查系统</option>
+                        <option value="3">在线教育</option>
+                        <option value="4">数据分析</option>
+                        <option value="5">豫矫通</option>
+                        <option value="6">豫在矫</option>
+                        <option value="7">业务系统-测试服</option>
+                        <option value="8">核查系统-测试服</option>
+                        <option value="9">在线教育-测试服</option>
+                        <option value="10">数据分析-测试服</option>
+                        <option value="11">豫矫通-测试服</option>
+                        <option value="12">豫在矫-测试服</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <!--                    <div class="layui-input-block">-->
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="formPages">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <!--                    </div>-->
+            </div>
+        </div>
+    </form>
+</div>
+<div class="management_table table-striped">
+    <table id="data_table"></table>
+</div>
+<script th:src="@{/third/layui/layui.js}"></script>
+<script th:src="@{/third/axios/axios.min.js}"></script>
+<script th:src="@{/js/management.js}"></script>
+</body>
+</html>

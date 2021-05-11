@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.johnyehyo.servermanage.mapper.ServerInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.johnyehyo.servermanage.entity.ServerInfo">
+        <id column="id" property="id" />
+        <result column="server_name" property="serverName" />
+        <result column="server_url" property="serverUrl" />
+        <result column="tomcat_dir" property="tomcatDir" />
+        <result column="state" property="state" />
+        <result column="bucket_name" property="bucketName" />
+        <result column="object_name" property="objectName" />
+        <result column="is_valid" property="isValid" />
+    </resultMap>
+
+
+    <select id="pages" parameterType="com.johnyehyo.servermanage.core.param.ServerQuery"
+            resultMap="BaseResultMap">
+        SELECT
+        id,
+        server_name,
+        server_url,
+        tomcat_dir,
+        state,
+        bucket_name,
+        object_name
+        FROM
+        server_info
+        <where>
+            <if test="param.serverName != null and param.serverName != ''">
+                and serverName = #{param.serverName}
+            </if>
+                and is_valid = 0
+            order by id desc
+        </where>
+    </select>
+</mapper>
