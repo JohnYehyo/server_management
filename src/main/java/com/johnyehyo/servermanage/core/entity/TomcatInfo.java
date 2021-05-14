@@ -22,7 +22,7 @@ public class TomcatInfo implements Serializable {
     /**
      * 服务名称
      */
-    private String server_name;
+    private int server_name;
 
     /**
      * 服务器地址

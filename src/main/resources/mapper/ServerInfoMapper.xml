@@ -29,7 +29,7 @@
         server_info
         <where>
             <if test="param.serverName != null and param.serverName != ''">
-                and serverName = #{param.serverName}
+                and server_name = #{param.serverName}
             </if>
                 and is_valid = 0
             order by id desc

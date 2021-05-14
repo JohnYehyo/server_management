@@ -34,7 +34,7 @@ public class ServerInfo implements Serializable {
     /**
      * 服务名
      */
-    private String serverName;
+    private int serverName;
 
     /**
      * 服务地址

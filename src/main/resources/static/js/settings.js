@@ -1,51 +1,95 @@
 /**
- *@description: 服务管理
+ *@description: 服务治理
  *@author: JohnYehyo
  *@create: 2021-05-11 18:41:46
  */
-let table;
+let tableIns;
 layui.use(['form', 'table'], function () {
     let form = layui.form;
-    table = layui.table;
+    let table = layui.table;
     let $ = layui.$;
 
     //监听提交
     form.on('submit(formPages)', function (data) {
-        console.log(data.field)
-        reload(data.field.server_url, data.field.server_name)
+        reload(data.field.server_name)
         return false;
     });
 
-
-    table.render({
+    tableIns = table.render({
         elem: '#data_table',
         even: true,
-        url: '/tomcat/pages/',
+        url: '/serverInfo/pages/',
+        method: 'post',
         limit: 20,
         limits: [5, 10, 20, 50],
         cellMinWidth: 80,
-        toolbar: '#toolbarDemo',
+        toolbar: '#bar_tool',
+        defaultToolbar: [
+            'filter', 'exports', 'print'
+            //     , {
+            //     title: '提示',
+            //     layEvent: 'LAYTABLE_TIPS',
+            //     icon: 'layui-icon-tips'
+            // }
+        ],
         // height: $(document).height() - $('#data_table').offset().top,
         cols: [[
-            {field: 'server_name', title: '服务名称', sort: true},
-            {field: 'server_url', title: '服务器地址'},
-            {field: 'tomcat_dir', title: 'tomcat路径'},
-            {field: 'state', title: '状态', sort: true},
-            {field: 'bucketName', title: '存储桶', sort: true},
-            {field: 'objectName', title: '对象名', sort: true},
-            {field: 'action', title: '操作',
+            {type: 'checkbox', width: '2%'},
+            {
+                field: 'serverName', title: '服务名称', width: '16%', sort: true,
                 templet: function (data) {
-                    return '<a href="javascript:void(0);" style="color: #008000"' +
-                        ' onclick="upgrade(' + JSON.stringify(data).replace(/\"/g, "'") + ')">配置</a>' +
-                        ' &nbsp;' +
-                        '<a href="javascript:void(0);" style="color: #0000FF" ' +
-                        'onclick="reboot(' + JSON.stringify(data).replace(/\"/g, "'") + ')">删除</a>'
+                    let text = '';
+                    switch (Number(data.serverName)) {
+                        case 1:
+                            text = '业务系统';
+                            break;
+                        case 2:
+                            text = '核查系统';
+                            break;
+                        case 3:
+                            text = '在线教育';
+                            break;
+                        case 4:
+                            text = '数据分析';
+                            break;
+                        case 5:
+                            text = '豫矫通';
+                            break;
+                        case 6:
+                            text = '豫在矫';
+                            break;
+                        case 7:
+                            text = '业务系统-测试服';
+                            break;
+                        case 8:
+                            text = '核查系统-测试服';
+                            break;
+                        case 9:
+                            text = '在线教育-测试服';
+                            break;
+                        case 10:
+                            text = '数据分析-测试服';
+                            break;
+                        case 11:
+                            text = '豫矫通-测试服';
+                            break;
+                        case 12:
+                            text = '豫在矫-测试服';
+                            break;
+                        default:
+                    }
+                    return text;
                 }
-            }
+            },
+            {field: 'serverUrl', width: '17%', title: '服务器地址'},
+            {field: 'tomcatDir', width: '25%', title: 'tomcat路径'},
+            {field: 'bucketName', width: '10%', title: '存储桶', sort: true},
+            {field: 'objectName', width: '20%', title: '对象名', sort: true},
+            {field: 'action', width: '10%', title: '操作', toolbar: '#tr_tool'}
         ]],
         page: {
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
-            curr: 20,
+            curr: 1,
             groups: 5,
             first: false,
             last: false
@@ -60,39 +104,70 @@ layui.use(['form', 'table'], function () {
             };
         }
     });
+
+    table.on('toolbar(data_table_filter)', function (obj) {
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch (obj.event) {
+            case 'add':
+                layer.open({
+                    type: 2,
+                    content: '/view/settings_form',
+                    area: ['400px', '100%'],
+                    offset: 'rt',
+                    anim: 5,
+                    shadeClose: true,
+                    end: function () {
+                        reload($("select[name='server_name'] option:selected").val())
+                    }
+                });
+                break;
+            case 'delete':
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+                break;
+        }
+        ;
+    });
+
+    table.on('tool(data_table_filter)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'update') {
+            layer.open({
+                type: 2,
+                content: '/view/settings_form?id=' + data.id,
+                area: ['400px', '100%'],
+                offset: 'rt',
+                anim: 5,
+                shadeClose: true,
+                end: function () {
+                    reload($("select[name='server_name'] option:selected").val())
+                }
+            });
+        }
+    });
 });
 
-function reload(pid, server_name) {
-    table.reload({
+function reload(server_name) {
+    tableIns.reload({
         where: {
-            pid: pid,
-            server_name: server_name
+            serverName: Number(server_name)
         }
     })
 }
 
-function upgrade(){
-    axios.post('/tomcat/manageTest', {
+//删除
+function deleteItems(param) {
+    axios.post('/serverInfo/delete', {
+        tomcatDir: param.tomcatDir,
+        bucketName: param.bucketName,
+        objectName: param.objectName
     }).then(res => {
         let data = res.data;
-        if(data.code === 0){
+        if (data.code === 0) {
             layer.msg(data.msg, {icon: 1});
-        }else{
-            layer.msg(data.msg, {icon: 2});
-        }
-    }).catch(e => {
-        console.error(e)
-        layer.msg('系统繁忙请稍后重试!', {icon: 0});
-    })
-}
-
-function reboot(){
-    axios.post('/tomcat/manageTest', {
-    }).then(res => {
-        let data = res.data;
-        if(data.code === 0){
-            layer.msg(data.msg, {icon: 1});
-        }else{
+        } else {
             layer.msg(data.msg, {icon: 2});
         }
     }).catch(e => {

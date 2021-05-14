@@ -13,4 +13,4 @@ tomcatfile:
   savePath: webapps/ROOT.war
 
 swagger:
-  enable: true
+  enable: false

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>服务治理</title>
+    <link rel="stylesheet" th:href="@{/third/layui/css/layui.css}">
+</head>
+<body>
+<div class="layui-container">
+    <form class="layui-form" action="" lay-filter="form_filter">
+        <input type="hidden" name="id" th:value="${id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务名称</label>
+            <div class="layui-input-inline">
+                <select name="serverName" lay-verify="required" lay-search="" id="serverName">
+                    <option value="">直接选择或搜索选择</option>
+                    <option value="1">业务系统</option>
+                    <option value="2">核查系统</option>
+                    <option value="3">在线教育</option>
+                    <option value="4">数据分析</option>
+                    <option value="5">豫矫通</option>
+                    <option value="6">豫在矫</option>
+                    <option value="7">业务系统-测试服</option>
+                    <option value="8">核查系统-测试服</option>
+                    <option value="9">在线教育-测试服</option>
+                    <option value="10">数据分析-测试服</option>
+                    <option value="11">豫矫通-测试服</option>
+                    <option value="12">豫在矫-测试服</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务器地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="serverUrl" autocomplete="off" placeholder="请输入服务器地址" lay-verify="required"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">tomcat路径</label>
+            <div class="layui-input-block">
+                <input type="text" name="tomcatDir" autocomplete="off" placeholder="请输入tomcat路径" lay-verify="required"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">存储桶</label>
+            <div class="layui-input-block">
+                <input type="text" name="bucketName" autocomplete="off" placeholder="请输入存储桶" lay-verify="required"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">对象名</label>
+            <div class="layui-input-block">
+                <input type="text" name="objectName" autocomplete="off" placeholder="请输入对象名" lay-verify="required"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="submit_filter">提交</button>
+                <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="cancel_filter">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:src="@{/third/layui/layui.js}"></script>
+<script th:src="@{/third/axios/axios.min.js}"></script>
+<script th:src="@{/js/settings_form.js}"></script>
+</body>
+</html>

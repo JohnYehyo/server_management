@@ -16,7 +16,7 @@ public class ServerQuery {
      */
     @ApiModelProperty(value = "服务名")
 //    @NotEmpty(message = "服务名不能为空")
-    private String serverName;
+    private Integer serverName;
 
     /**
      * 页码

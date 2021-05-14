@@ -18,10 +18,21 @@ public class ResponseVo<T> implements Serializable {
 
     private static final long serialVersionUID = 2157815966898945209L;
 
+    /**
+     * 响应码
+     */
     @ApiModelProperty(value = "响应码")
     private Integer code;
+
+    /**
+     * 响应信息
+     */
     @ApiModelProperty(value = "响应信息")
     private String msg;
+
+    /**
+     * 响应结果
+     */
     @ApiModelProperty(value = "响应结果")
     private T data;
 
