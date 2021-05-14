@@ -4,10 +4,11 @@
  *@create: 2021-05-11 18:41:46
  */
 let tableIns;
+let $;
 layui.use(['form', 'table'], function () {
     let form = layui.form;
     let table = layui.table;
-    let $ = layui.$;
+    $ = layui.$;
 
     //监听提交
     form.on('submit(formPages)', function (data) {
@@ -122,8 +123,12 @@ layui.use(['form', 'table'], function () {
                 });
                 break;
             case 'delete':
-                layer.confirm('真的删除行么', function (index) {
-                    obj.del();
+                if (!checkStatus.data.length) {
+                    layer.msg('请选择要删除的数据');
+                    return
+                }
+                layer.confirm('确认删除所选数据吗?', function (index) {
+                    deleteItems(checkStatus.data)
                     layer.close(index);
                 });
                 break;
@@ -159,13 +164,11 @@ function reload(server_name) {
 
 //删除
 function deleteItems(param) {
-    axios.post('/serverInfo/delete', {
-        tomcatDir: param.tomcatDir,
-        bucketName: param.bucketName,
-        objectName: param.objectName
-    }).then(res => {
+    let data = param.map(item => item.id).join(",");
+    axios.delete('/serverInfo/delete/'+data).then(res => {
         let data = res.data;
         if (data.code === 0) {
+            reload($("select[name='server_name'] option:selected").val())
             layer.msg(data.msg, {icon: 1});
         } else {
             layer.msg(data.msg, {icon: 2});

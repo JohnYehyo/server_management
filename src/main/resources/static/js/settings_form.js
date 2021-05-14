@@ -54,7 +54,6 @@ function rendering(form, id) {
 
 //新增
 function add(param) {
-    console.log(param.serverName)
     let serverName = Number(param.serverName);
     param.serverName = serverName;
     axios.post('/serverInfo/add', param).then(res => {

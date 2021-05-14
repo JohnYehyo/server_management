@@ -3,7 +3,6 @@ package com.johnyehyo.servermanage.controller;
 
 import com.johnyehyo.servermanage.core.param.ServerInfoParam;
 import com.johnyehyo.servermanage.core.param.ServerQuery;
-import com.johnyehyo.servermanage.core.util.LogUtils;
 import com.johnyehyo.servermanage.core.vo.ResponseVo;
 import com.johnyehyo.servermanage.service.IServerInfoService;
 import io.swagger.annotations.Api;
@@ -12,6 +11,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -71,5 +73,19 @@ public class ServerInfoController {
     @PutMapping(value = "update")
     public ResponseVo update(@Valid @RequestBody ServerInfoParam serverInfoParam) {
         return serverInfoService.updateInfo(serverInfoParam);
+    }
+
+    /**
+     * 删除服务器信息
+     * @return
+     */
+    @ApiOperation(value = "删除服务器信息")
+    @DeleteMapping(value = "delete/{ids}")
+    public ResponseVo delete(@PathVariable String ids){
+        List<Integer> list = Arrays.stream(ids.split(",")).map(Integer::valueOf).collect(Collectors.toList());
+        if(serverInfoService.removeByIds(list)){
+            return ResponseVo.success();
+        }
+        return ResponseVo.error();
     }
 }
