@@ -11,3 +11,12 @@
 .layui-table-box {
     /*margin-bottom: 0px;*/
 }
+
+.layui-side-scroll {
+    width: 200px;
+}
+
+layui-this, .layui-nav-tree .layui-this > a, .layui-nav-tree .layui-this > a:hover {
+    background-color: #5FB878;
+    color: #fff;
+}
