@@ -12,6 +12,7 @@
         <result column="bucket_name" property="bucketName" />
         <result column="object_name" property="objectName" />
         <result column="is_valid" property="isValid" />
+        <result column="package_type" property="packageType" />
     </resultMap>
 
 
@@ -24,7 +25,8 @@
         tomcat_dir,
         state,
         bucket_name,
-        object_name
+        object_name,
+        package_type
         FROM
         server_info
         <where>

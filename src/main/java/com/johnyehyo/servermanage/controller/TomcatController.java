@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 /**
  * @description: tomcat管理
  * @author: JohnYehyo
@@ -44,18 +42,7 @@ public class TomcatController {
      */
     @ApiOperation(value = "tomcat重启")
     @PostMapping(value = "reboot")
-    public ResponseVo reboot(@Validated(FileParam.reboot.class) @RequestBody FileParam fileParam) {
+    public ResponseVo reboot(@Validated(FileParam.reboot.class) @RequestBody FileParam fileParam) throws InterruptedException {
         return tomcatService.reboot(fileParam);
     }
-
-    @ApiOperation(value = "tomcat升级测试")
-    @GetMapping(value = "manageTest")
-    public ResponseVo manage() {
-//        FileParam fileParam = new FileParam();
-//        fileParam.setBucketName("test");
-//        fileParam.setObjectName("hecha/rjcloud-sysweb.war");
-//        return tomcatService.manage(fileParam);
-        return ResponseVo.success();
-    }
-
 }

@@ -39,7 +39,8 @@ function rendering(form, id) {
                 "serverUrl": data.data.serverUrl,
                 "tomcatDir": data.data.tomcatDir,
                 "bucketName": data.data.bucketName,
-                "objectName": data.data.objectName
+                "objectName": data.data.objectName,
+                "packageType": data.data.packageType
             });
         } else {
             layer.msg(data.msg, {icon: 2});
@@ -59,8 +60,9 @@ function add(param) {
     axios.post('/serverInfo/add', param).then(res => {
         let data = res.data;
         if (data.code === 0) {
-            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-            parent.layer.close(index); //再执行关闭
+            //先得到当前iframe层的索引
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
             layer.msg(data.msg, {icon: 1});
         } else {
             layer.msg(data.msg, {icon: 2});
@@ -80,8 +82,9 @@ function update(param) {
     axios.put('/serverInfo/update', param).then(res => {
         let data = res.data;
         if (data.code === 0) {
-            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-            parent.layer.close(index); //再执行关闭
+            //先得到当前iframe层的索引
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
             layer.msg(data.msg, {icon: 1});
         } else {
             layer.msg(data.msg, {icon: 2});

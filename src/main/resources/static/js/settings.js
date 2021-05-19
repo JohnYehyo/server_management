@@ -37,7 +37,7 @@ layui.use(['form', 'table'], function () {
         cols: [[
             {type: 'checkbox', width: '2%'},
             {
-                field: 'serverName', title: '服务名称', width: '16%', sort: true,
+                field: 'serverName', title: '服务名称', width: '15%', sort: true,
                 templet: function (data) {
                     let text = '';
                     switch (Number(data.serverName)) {
@@ -82,10 +82,18 @@ layui.use(['form', 'table'], function () {
                     return text;
                 }
             },
-            {field: 'serverUrl', width: '17%', title: '服务器地址'},
+            {field: 'serverUrl', width: '15%', title: '服务器地址'},
             {field: 'tomcatDir', width: '25%', title: 'tomcat路径'},
             {field: 'bucketName', width: '10%', title: '存储桶', sort: true},
-            {field: 'objectName', width: '20%', title: '对象名', sort: true},
+            {field: 'objectName', width: '15%', title: '对象名', sort: true},
+            {field: 'packageType', width: '8%', title: '包类型', sort: true,
+                templet: function (data) {
+                    if (data.packageType == 1) {
+                        return '<span style="text-align: center">jar</span>'
+                    }
+                    return '<span style="text-align: center">war</span>'
+                }
+            },
             {field: 'action', width: '10%', title: '操作', toolbar: '#tr_tool'}
         ]],
         page: {

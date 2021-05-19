@@ -52,4 +52,10 @@ public class ServerInfoParam {
     @ApiModelProperty(value = "对象名", required = true)
     @NotEmpty(message = "对象名不能为空")
     private String objectName;
+
+    /**
+     * 包类型
+     */
+    @ApiModelProperty(value = "包类型", required = true)
+    private int packageType;
 }

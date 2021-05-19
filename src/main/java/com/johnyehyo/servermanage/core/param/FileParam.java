@@ -51,4 +51,10 @@ public class FileParam {
     )
     private String objectName;
 
+    /**
+     * 包类型
+     */
+    @ApiModelProperty(value = "包类型", required = true)
+    private int packageType;
+
 }

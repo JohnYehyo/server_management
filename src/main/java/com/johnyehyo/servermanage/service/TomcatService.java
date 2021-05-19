@@ -22,5 +22,5 @@ public interface TomcatService {
      * @param fileParam 对象参数
      * @return ResponseVo 结果
      */
-    ResponseVo reboot(FileParam fileParam);
+    ResponseVo reboot(FileParam fileParam) throws InterruptedException;
 }

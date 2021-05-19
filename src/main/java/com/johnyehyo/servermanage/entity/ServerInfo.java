@@ -66,5 +66,10 @@ public class ServerInfo implements Serializable {
      */
     private int isValid;
 
+    /**
+     * 包类型
+     */
+    private int packageType;
+
 
 }

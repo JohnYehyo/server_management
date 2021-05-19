@@ -1,5 +1,6 @@
 package com.johnyehyo.servermanage.service.impl;
 
+import com.johnyehyo.servermanage.core.enums.CommondEnum;
 import com.johnyehyo.servermanage.core.param.FileParam;
 import com.johnyehyo.servermanage.core.util.FileAction;
 import com.johnyehyo.servermanage.core.util.LogUtils;
@@ -48,18 +49,28 @@ public class TomcatServiceImpl implements TomcatService {
             return ResponseVo.error();
         }
 
-        String stopCommand = "cd " + tomcatDir + "bin" + "&&shutdown.bat";
-        String delCommand = "cd " + tomcatDir + "webapps" + "&&rmdir /s/q ROOT";
-        String startCommand = "cd " + tomcatDir + "bin" + "&&startup.bat";
-        Process exec1 = execute(stopCommand);
+        String stopCommand;
+        String delCommand;
+        String startCommand;
+        boolean isLinux = isLinux();
+        if (isLinux) {
+            stopCommand = "cd " + tomcatDir + "bin" + "&& ./shutdown.sh";
+            delCommand = "cd " + tomcatDir + "webapps" + "&&rm -rf ROOT";
+            startCommand = "cd " + tomcatDir + "bin" + "&& ./startup.sh";
+        } else {
+            stopCommand = "cd " + tomcatDir + "bin" + "&&shutdown.bat";
+            delCommand = "cd " + tomcatDir + "webapps" + "&&rmdir /s/q ROOT";
+            startCommand = "cd " + tomcatDir + "bin" + "&&startup.bat";
+        }
+        Process exec1 = execute(stopCommand, isLinux);
         logProcess(exec1);
-        Process exec2 = execute(delCommand);
+        Process exec2 = execute(delCommand, isLinux);
         logProcess(exec2);
 
         ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
                 new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
         executorService.execute(() -> {
-            Process exec3 = execute(startCommand);
+            Process exec3 = execute(startCommand, isLinux);
             logProcess(exec3);
         });
 
@@ -75,20 +86,30 @@ public class TomcatServiceImpl implements TomcatService {
      * @return ResponseVo 结果
      */
     @Override
-    public ResponseVo reboot(FileParam fileParam) {
+    public ResponseVo reboot(FileParam fileParam) throws InterruptedException {
 
         String tomcatDir = fileParam.getTomcatDir();
 
-        String stopCommand = "cd " + tomcatDir + "bin" + "&&shutdown.bat";
-        String startCommand = "cd " + tomcatDir + "bin" + "&&startup.bat";
+        String stopCommand;
+        String startCommand;
+        boolean isLinux = isLinux();
+        if (isLinux) {
+            stopCommand = "cd " + tomcatDir + "bin" + "&& ./shutdown.sh";
+            startCommand = "cd " + tomcatDir + "bin" + "&& ./startup.sh";
+        } else {
+            stopCommand = "cd " + tomcatDir + "bin" + "&&shutdown.bat";
+            startCommand = "cd " + tomcatDir + "bin" + "&&startup.bat";
+        }
 
-        Process exec1 = execute(stopCommand);
+        Process exec1 = execute(stopCommand, isLinux);
         logProcess(exec1);
+
+        Thread.sleep(10000L);
 
         ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
                 new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
         executorService.execute(() -> {
-            Process exec2 = execute(startCommand);
+            Process exec2 = execute(startCommand, isLinux);
             logProcess(exec2);
         });
 
@@ -98,13 +119,18 @@ public class TomcatServiceImpl implements TomcatService {
 
     /**
      * 调用命令行执行命令
+     *
      * @param commond
+     * @param isLinux
      * @return
      */
-    private Process execute(String commond) {
+    private Process execute(String commond, boolean isLinux) {
         Process exec = null;
+
         try {
-            exec = Runtime.getRuntime().exec("cmd /c " + commond);
+            exec = Runtime.getRuntime().exec(
+                    isLinux ? CommondEnum.LINUX_COMMOND.getCommod() : CommondEnum.WINDOWS_COMMOND.getCommod()
+                            + commond);
             LogUtils.info("执行cmd[{}]", commond);
         } catch (IOException e) {
             LogUtils.error("执行cmd[{}]失败:{}", commond, e);
@@ -114,6 +140,7 @@ public class TomcatServiceImpl implements TomcatService {
 
     /**
      * 记录命令行
+     *
      * @param exec
      */
     private void logProcess(Process exec) {
@@ -131,8 +158,9 @@ public class TomcatServiceImpl implements TomcatService {
 
     /**
      * 下载附件
+     *
      * @param fileParam 对象存储参数
-     * @param savePath 保存地址
+     * @param savePath  保存地址
      * @return
      */
     private boolean download(FileParam fileParam, String savePath) {
@@ -164,6 +192,16 @@ public class TomcatServiceImpl implements TomcatService {
         }
 
         return flag;
+    }
+
+    /**
+     * 判断操作系统
+     *
+     * @return
+     */
+    private boolean isLinux() {
+        String os = System.getProperty("os.name");
+        return os.toLowerCase().contains("linux");
     }
 
 }

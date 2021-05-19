@@ -28,7 +28,7 @@ layui.use(['form', 'table'], function () {
         // height: $(document).height() - $('#data_table').offset().top,
         cols: [[
             {
-                field: 'serverName', title: '服务名称', width: '16%', sort: true,
+                field: 'serverName', title: '服务名称', width: '15%', sort: true,
                 templet: function (data) {
                     let text = '';
                     switch (Number(data.serverName)) {
@@ -73,8 +73,8 @@ layui.use(['form', 'table'], function () {
                     return text;
                 }
             },
-            {field: 'serverUrl', width: '16%', title: '服务器地址'},
-            {field: 'tomcatDir', width: '25%', title: 'tomcat路径'},
+            {field: 'serverUrl', width: '15%', title: '服务器地址'},
+            {field: 'tomcatDir', width: '22%', title: 'tomcat路径'},
             {
                 field: 'state', title: '状态', width: '6%', sort: true,
                 templet: function (data) {
@@ -85,7 +85,15 @@ layui.use(['form', 'table'], function () {
                 }
             },
             {field: 'bucketName', width: '10%', title: '存储桶', sort: true},
-            {field: 'objectName', width: '17%', title: '对象名', sort: true},
+            {field: 'objectName', width: '15%', title: '对象名', sort: true},
+            {field: 'packageType', width: '7%', title: '包类型', sort: true,
+                templet: function (data) {
+                    if (data.packageType == 1) {
+                        return '<span style="text-align: center">jar</span>'
+                    }
+                    return '<span style="text-align: center">war</span>'
+                }
+            },
             {field: 'action', width: '10%', title: '操作', toolbar: '#tr_tool'}
         ]],
         page: {
@@ -130,7 +138,8 @@ function upgrade(param) {
     axios.post('/tomcat/upgrade', {
         tomcatDir: param.tomcatDir,
         bucketName: param.bucketName,
-        objectName: param.objectName
+        objectName: param.objectName,
+        packageType: param.packageType
     }).then(res => {
         let data = res.data;
         if (data.code === 0) {
@@ -147,7 +156,8 @@ function upgrade(param) {
 //重启
 function reboot(param) {
     axios.post('/tomcat/reboot', {
-        tomcatDir: param.tomcatDir
+        tomcatDir: param.tomcatDir,
+        packageType: param.packageType
     }).then(res => {
         let data = res.data;
         if (data.code === 0) {
