@@ -86,7 +86,7 @@ public class TomcatServiceImpl implements TomcatService {
      * @return ResponseVo 结果
      */
     @Override
-    public ResponseVo reboot(FileParam fileParam) throws InterruptedException {
+    public ResponseVo reboot(FileParam fileParam) {
 
         String tomcatDir = fileParam.getTomcatDir();
 
@@ -104,7 +104,11 @@ public class TomcatServiceImpl implements TomcatService {
         Process exec1 = execute(stopCommand, isLinux);
         logProcess(exec1);
 
-        Thread.sleep(10000L);
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
                 new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
