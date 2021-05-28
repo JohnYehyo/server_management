@@ -30,11 +30,8 @@ layui.use(['element', 'layer', 'util'], function () {
             });
             //判断isshow的状态
             if (isShow) {
-                console.log($('#change'))
                 $('#change').removeClass('layui-icon-shrink-right');
-                console.log($('#change'))
                 $('#change').addClass('layui-icon-spread-left');
-                console.log($('#change'))
                 $('.layui-layout-admin .layui-logo').width(60);
                 $('.layui-layout-admin .layui-side').width(60);
                 $('.layui-side-scroll').width(60);
@@ -43,11 +40,8 @@ layui.use(['element', 'layer', 'util'], function () {
                 $('.layui-body').css('left', 60 + 'px');
                 $('.layui-footer').css('left', 60 + 'px');
             } else {
-                console.log($('#change'))
                 $('#change').removeClass('layui-icon-spread-left');
-                console.log($('#change'))
                 $('#change').addClass(' layui-icon-shrink-right');
-                console.log($('#change'))
                 $('.layui-layout-admin .layui-logo').width(200);
                 $('.layui-layout-admin .layui-side').width(200);
                 $('.layui-side-scroll').width(200);
