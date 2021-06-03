@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @create: 2021-05-10 18:16:30
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ServerManageApplication.class})// 指定启动类
+@SpringBootTest(classes = {ServerManageApplication.class})
 public class TomcatTest {
 
     @Autowired
